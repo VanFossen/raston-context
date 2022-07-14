@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Input from "./components/Input";
+import Display from "./components/Display";
+import Navbar from "./components/Navbar";
+import { InputContext } from "./contexts/InputContext";
+import { useState } from "react";
 
 function App() {
+  const [mode, setMode] = useState("absorbance");
+  const [wavenumber, setWavenumber] = useState(123);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+
+      <InputContext.Provider
+        value={{ mode, setMode, wavenumber, setWavenumber }}
+      >
+        <Routes>
+          <Route path="/" element={<Input />} />
+          <Route path="/display" element={<Display />} />
+        </Routes>
+      </InputContext.Provider>
     </div>
   );
 }
